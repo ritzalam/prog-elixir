@@ -8,8 +8,18 @@ defmodule ApiProxyTest do
     assert Api.calculate_checksum(:sha256, text) == "81a30be0b00e6e56c12056f868e5be19650b5b80b81602500ec700858e5d9cf4"
   end
 
-  test "sha256 checksum" do
-    checksum = "81a30be0b00e6e56c12056f868e5be19650b5b80b81602500ec700858e5d9cf4"
-    assert :sha256 == Api.which_checksum(checksum)
+  test "remove checksum from beginning" do
+    query = "checksum=foo&a=a&b=b"
+    assert Api.strip_checksum_from_query(query, "foo") == "a=a&b=b"
+  end
+
+  test "remove checksum from end" do
+    query = "a=a&b=b&checksum=foo"
+    assert Api.strip_checksum_from_query(query, "foo") == "a=a&b=b"
+  end
+
+  test "remove checksum from middle" do
+    query = "a=a&checksum=foo&b=b"
+    assert Api.strip_checksum_from_query(query, "foo") == "a=a&b=b"
   end
 end
