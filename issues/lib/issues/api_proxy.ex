@@ -15,4 +15,12 @@ defmodule Issues.ApiProxy do
     |> String.replace("&checksum=#{checksum}", "")
     |> String.replace("checksum=#{checksum}&", "")
   end
+
+  def convert_to_internal_meetingid(meetingid) do
+    :crypto.hash(:sha, meetingid) |> Base.encode16 |> String.downcase
+  end
+
+  def param_is_not_empty(params, param) do
+    Map.has_key?(params, param) && params[param] != ""
+  end
 end

@@ -22,4 +22,14 @@ defmodule ApiProxyTest do
     query = "a=a&checksum=foo&b=b"
     assert Api.strip_checksum_from_query(query, "foo") == "a=a&b=b"
   end
+
+  test "param is not empty" do
+    params = %{"foo" => "foo", "bar" => "bar", "baz" => "baz"}
+    assert Api.param_is_not_empty(params, "foo") == true
+  end
+
+  test "param is empty" do
+    params = %{"foo" => "", "bar" => "bar", "baz" => "baz"}
+    assert Api.param_is_not_empty(params, "foo") == false
+  end
 end
